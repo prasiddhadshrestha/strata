@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+build/
+
+# Testing & linters
+.pytest_cache/
+.ruff_cache/
+.coverage
+
+# Generated outputs & local attempt logs
+out/
+attempts_local/
+*.pdf
+!tests/fixtures/*.pdf
+
+# Environment & OS
+.env
+.DS_Store
+Thumbs.db
