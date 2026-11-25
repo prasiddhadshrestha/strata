@@ -2,9 +2,12 @@
 
 **Declarative assessment compiler that builds print-ready PDF exams, air-gapped offline HTML timed runners, and mastery-streak triage sets from a single YAML manifest.**
 
-[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF)](#10-second-quickstart)
+[![CI](https://github.com/prasiddhadshrestha/strata/actions/workflows/ci.yml/badge.svg)](https://github.com/prasiddhadshrestha/strata/actions/workflows/ci.yml)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Offline%20Runner-0284c7)](https://prasiddhadshrestha.github.io/strata/)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB)](#10-second-quickstart)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+> **Try it in your browser (zero install):** [Open Live Compiled Timed Runner Demo](https://prasiddhadshrestha.github.io/strata/) (compiled directly from `examples/systems_algorithms.yaml`)
 
 Flashcard apps drop the two constraints that actually decide hard technical exams: spatial paper layout (multi-step derivations alongside diagrams) and strict countdown isolation without tabs or assistants. Strata treats practice exams like compiled build artifacts generated deterministically from plain YAML.
 
