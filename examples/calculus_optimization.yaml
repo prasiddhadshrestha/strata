@@ -1,0 +1,65 @@
+title: "Calculus & Optimization Drills"
+subtitle: "Limits, Chain Rule & Extrema Verification"
+course: "Math Practice Set 01"
+date: "Sample Edition"
+duration_minutes: 25
+layout: single
+include_name_line: true
+show_answer_key: true
+rules:
+  - "No calculators or CAS tools permitted."
+  - "Show every intermediate algebraic transformation."
+guidelines:
+  - "Check domain boundaries and even-power signs before asserting +/- infinity."
+  - "Identify outer vs inner functions before differentiating nested compositions."
+
+sections:
+  - name: "Free-Response Problems"
+    problems:
+      - id: "calc-01"
+        type: "free_response"
+        title: "Even-Power One-Sided Limit"
+        prompt: "Evaluate the limit and verify the sign of the denominator carefully:"
+        math: "\\lim_{x \\to 3^{-}} \\frac{5}{(x - 3)^{2}}"
+        points: 5
+        estimated_minutes: 4
+        space_inches: 1.8
+        answer: "+infinity"
+        explanation: "Approaching from the left gives x - 3 -> 0-, and squaring forces (x - 3)^2 -> 0+."
+        tags: ["even-power-sign", "one-sided-limit"]
+
+      - id: "calc-02"
+        type: "free_response"
+        title: "Nested Product and Chain Rule"
+        prompt: "Compute the derivative dy/dx without skipping intermediate factors:"
+        math: "y = x^{3} \\sin(4x)"
+        points: 5
+        estimated_minutes: 5
+        space_inches: 2.0
+        answer: "3x^2 sin(4x) + 4x^3 cos(4x)"
+        explanation: "Apply Product Rule first, then multiply cos(4x) by inner derivative 4."
+        tags: ["chain-inner-factor", "product-rule"]
+
+      - id: "calc-03"
+        type: "free_response"
+        title: "Implicit Curve Tangent Slope"
+        prompt: "Find dy/dx at the point (1, 1) on the curve below:"
+        math: "x^{2}y + y^{3} = 2"
+        points: 5
+        estimated_minutes: 6
+        space_inches: 2.1
+        answer: "-1/2"
+        explanation: "2xy + x^2 y' + 3y^2 y' = 0; substituting (1, 1) gives 2 + 4y' = 0 so y' = -1/2."
+        tags: ["implicit-product", "sign-flip"]
+
+      - id: "calc-04"
+        type: "free_response"
+        title: "Closed-Interval Optimization Check"
+        prompt: "Find the absolute maximum and absolute minimum values of the function on [0, 3]:"
+        math: "f(x) = x^{3} - 3x^{2} + 4"
+        points: 5
+        estimated_minutes: 6
+        space_inches: 2.2
+        answer: "Max = 4 (at x = 0 and x = 3); Min = 0 (at x = 2)"
+        explanation: "Critical points x = 0, 2 all lie inside [0, 3]; compare f(0)=4, f(2)=0, f(3)=4."
+        tags: ["boundary-condition", "critical-point-filter"]

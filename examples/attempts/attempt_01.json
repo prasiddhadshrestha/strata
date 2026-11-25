@@ -1,0 +1,37 @@
+{
+  "exam_title": "Mixed Baseline Run 1",
+  "timestamp": "2026-11-20T14:00:00Z",
+  "duration_seconds_used": 1380,
+  "results": [
+    {
+      "problem_id": "calc-01",
+      "status": "missed",
+      "tags": ["even-power-sign", "one-sided-limit"],
+      "notes": "Forgot squaring negative 0- flips sign to positive."
+    },
+    {
+      "problem_id": "calc-03",
+      "status": "missed",
+      "tags": ["implicit-product", "sign-flip"],
+      "notes": "Dropped 2xy term in product rule."
+    },
+    {
+      "problem_id": "calc-04",
+      "status": "missed",
+      "tags": ["boundary-condition", "critical-point-filter"],
+      "notes": "Forgot to evaluate endpoint x = 3."
+    },
+    {
+      "problem_id": "sys-01",
+      "status": "pass",
+      "tags": ["cache-coherence", "hardware-mental-model"],
+      "notes": ""
+    },
+    {
+      "problem_id": "sys-04",
+      "status": "partial",
+      "tags": ["concurrency-race", "systems-vocab"],
+      "notes": "Blank 2 missed busy-waiting."
+    }
+  ]
+}

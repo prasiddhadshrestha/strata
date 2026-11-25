@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: uv sync --dev
+      - name: Lint with ruff
+        run: uv run ruff check src tests scripts
+      - name: Run pytest suite
+        run: uv run pytest -v
+      - name: Smoke test CLI on examples
+        run: |
+          uv run strata validate examples/systems_algorithms.yaml
+          uv run strata validate examples/calculus_optimization.yaml
+          uv run strata build examples/systems_algorithms.yaml --out /tmp/strata-out --solutions
+          uv run strata triage --bank examples/calculus_optimization.yaml --bank examples/systems_algorithms.yaml --attempts examples/attempts --minutes 15 --out /tmp/strata-triage

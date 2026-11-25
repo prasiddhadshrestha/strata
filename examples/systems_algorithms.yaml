@@ -1,0 +1,126 @@
+title: "Systems & Algorithms Checkpoint"
+subtitle: "Concurrency, Cache Locality & Asymptotic Bounds"
+course: "CS Practice Set 01"
+date: "Sample Edition"
+duration_minutes: 25
+layout: two_column
+include_name_line: true
+show_answer_key: true
+rules:
+  - "Closed-book simulation. No external docs or search."
+  - "Read every option carefully before selecting."
+guidelines:
+  - "Spend 60 seconds scanning all items before writing."
+  - "Double-check boundary indices (0 vs n-1) on every loop question."
+  - "When finished, open Review & Key to grade items and export attempt.json."
+
+sections:
+  - name: "Part A: Multiple Choice"
+    problems:
+      - id: "sys-01"
+        type: "mcq"
+        title: "False Sharing Under Multi-Core Writes"
+        prompt: "Two threads on separate CPU cores increment independent 64-bit integer counters allocated adjacent to each other inside the same 64-byte cache line. Throughput drops sharply compared to padded counters. Why?"
+        points: 5
+        estimated_minutes: 4
+        options:
+          - "Lock contention in the OS kernel scheduler blocks both threads."
+          - "Cache coherence traffic repeatedly invalidates the shared cache line between cores (false sharing)."
+          - "Stack overflow occurs whenever two integers share an L1 line."
+          - "The CPU disables instruction pipelining for adjacent 64-bit registers."
+        answer: "B"
+        explanation: "Independent variables residing on the same 64-byte cache line trigger MESI invalidation ping-pong across cores."
+        distractor_notes:
+          A: "No mutex or kernel lock is involved; hardware coherence causes the stall."
+          C: "Cache-line sharing affects latency via invalidations, not stack bounds."
+          D: "Pipelining is independent of false sharing across L1 caches."
+        tags: ["cache-coherence", "hardware-mental-model"]
+
+      - id: "sys-02"
+        type: "mcq"
+        title: "Binary Search Loop Invariant"
+        prompt: "In standard inclusive binary search (`lo = 0`, `hi = n - 1`, `while lo <= hi`), using `mid = (lo + hi) / 2` in 32-bit signed arithmetic risks overflow. Which update preserves overflow safety and prevents infinite loops?"
+        points: 5
+        estimated_minutes: 4
+        options:
+          - "`mid = lo + (hi - lo) // 2`; set `lo = mid` when `arr[mid] < target`."
+          - "`mid = lo + (hi - lo) // 2`; set `lo = mid + 1` or `hi = mid - 1`."
+          - "`mid = (hi - lo) // 2`; set `lo = mid + 1`."
+          - "`mid = lo + hi >> 1`; set `hi = mid` when `arr[mid] > target`."
+        answer: "B"
+        explanation: "Subtracting first avoids overflow, and strict +/-1 bounds guarantee progress when lo == hi."
+        distractor_notes:
+          A: "Setting lo = mid stalls forever when lo + 1 == hi and arr[mid] < target."
+          C: "Forgets the + lo offset, snapping back into the first half."
+          D: "lo + hi still overflows 32-bit signed integers before shifting."
+        tags: ["off-by-one", "boundary-condition"]
+
+      - id: "sys-03"
+        type: "mcq"
+        title: "Time vs. Space Tradeoff in Memoized DP"
+        prompt: "Computing the nth Fibonacci number via naive recursion takes exponential time, whereas bottom-up iteration uses two rolling variables. What are their respective time and space complexities?"
+        points: 5
+        estimated_minutes: 3
+        options:
+          - "Naive: O(n^2) time, O(n) space; Rolling DP: O(n) time, O(n) space."
+          - "Naive: O(2^n) time, O(n) stack space; Rolling DP: O(n) time, O(1) space."
+          - "Naive: O(2^n) time, O(2^n) space; Rolling DP: O(log n) time, O(1) space."
+          - "Naive: O(n log n) time, O(n) space; Rolling DP: O(n) time, O(1) space."
+        answer: "B"
+        explanation: "Call tree depth is O(n) so stack space is linear even though total calls are exponential."
+        distractor_notes:
+          A: "Naive branching is exponential, not quadratic, and rolling DP drops table space to O(1)."
+          C: "Stack frames unwind along a single active path of depth n, not 2^n simultaneously."
+          D: "O(log n) requires matrix exponentiation, not linear rolling DP."
+        tags: ["complexity-bounds", "stack-depth"]
+
+      - id: "sys-05"
+        type: "mcq"
+        title: "Virtual Memory Page Fault Latency"
+        prompt: "A process dereferences a virtual address whose page table entry has its present bit cleared, though the page resides in the OS page cache in RAM (minor fault) versus on NVMe swap (major fault). Which overhead dominates a major fault?"
+        points: 5
+        estimated_minutes: 4
+        options:
+          - "TLB flush latency inside the MMU hardware walker."
+          - "Blocking storage I/O to read the 4 KB page from disk into physical RAM."
+          - "CPU register spill across user-to-kernel mode transitions."
+          - "L2 cache line eviction during page table traversal."
+        answer: "B"
+        explanation: "Microsecond/millisecond disk I/O is orders of magnitude slower than syscall or TLB miss overhead."
+        distractor_notes:
+          A: "TLB misses are nanoseconds; major page faults block on storage I/O."
+          C: "Context switches cost microseconds, dwarfed by disk reads."
+          D: "Cache eviction is minor compared to NVMe/SSD blocking wait."
+        tags: ["latency-orders", "virtual-memory"]
+
+      - id: "sys-06"
+        type: "mcq"
+        title: "Hash Table Load Factor Degradation"
+        prompt: "An open-addressed linear-probing hash table reaches a load factor of alpha = 0.95 without resizing. What happens to expected lookup time for unsuccessful keys?"
+        points: 5
+        estimated_minutes: 3
+        options:
+          - "It stays strictly O(1) regardless of load factor."
+          - "Primary clustering lengthens probe sequences steeply toward O(n) worst-case scans."
+          - "It drops to O(log n) because clusters behave like balanced BSTs."
+          - "Collisions automatically convert buckets into red-black trees."
+        answer: "B"
+        explanation: "Open addressing at high alpha suffers severe primary clustering; standard implementations resize around 0.5 to 0.75."
+        distractor_notes:
+          A: "Expected probes in linear probing grow as ~1/(1 - alpha)^2 for misses."
+          C: "Linear probing scans contiguous arrays, not binary trees."
+          D: "Treeification applies to Java HashMap separate chaining, not linear probing."
+        tags: ["amortized-bounds", "hashing-probing"]
+
+  - name: "Part B: Short Fill-in-the-Blank"
+    problems:
+      - id: "sys-04"
+        type: "fill_blank"
+        title: "Concurrency Primitives"
+        prompt: "A race condition where two threads acquire locks A and B in opposite orders and wait forever is called a __________________ . Replacing blocking locks with atomic compare-and-swap loops avoids deadlock but can cause CPU spinning known as __________________ ."
+        points: 5
+        estimated_minutes: 4
+        blanks: 2
+        answer: "deadlock; busy-waiting (or spinlock contention)"
+        explanation: "Circular wait causes deadlock; spin loops consume cycles without yielding."
+        tags: ["concurrency-race", "systems-vocab"]

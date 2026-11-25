@@ -1,0 +1,25 @@
+{
+  "exam_title": "Mixed Baseline Run 2",
+  "timestamp": "2026-11-22T16:30:00Z",
+  "duration_seconds_used": 1120,
+  "results": [
+    {
+      "problem_id": "calc-04",
+      "status": "pass",
+      "tags": ["boundary-condition", "critical-point-filter"],
+      "notes": "Checked endpoints cleanly."
+    },
+    {
+      "problem_id": "sys-02",
+      "status": "pass",
+      "tags": ["off-by-one", "boundary-condition"],
+      "notes": "2nd consecutive pass on boundary-condition -> mastered."
+    },
+    {
+      "problem_id": "calc-03",
+      "status": "missed",
+      "tags": ["implicit-product", "sign-flip"],
+      "notes": "Still dropped sign when moving 2xy to RHS."
+    }
+  ]
+}
